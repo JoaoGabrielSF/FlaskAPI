@@ -23,7 +23,7 @@ class UserViewSet:
         self.create_required_fields = ["nome", "idade"]
         self.create_optional_fields = ["profissao", "pertences", "created"]
         self.update_required_fields = ["nome", "idade"]
-        self.update_optional_fields = ["profissão", "updated"]
+        self.update_optional_fields = ["profissao", "pertences", "updated"]
 
     def get_next_user_id(self):
         user_count = self.collection.count_documents({}) + 1
@@ -64,4 +64,5 @@ class UserViewSet:
         self.validator.validate(
             user, self.fields, self.update_required_fields, self.update_optional_fields
         )
-        return self.collection.update_one(id, user)
+        self.collection.find_one_and_update({"_id": id}, {"$set": user})
+        return self.collection.find_one({"_id": id})
