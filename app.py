@@ -54,17 +54,17 @@ def delete_user(user_id):
     return response
 
 
-# @app.route("/api/v1/usesrs/", methods=["GET"])
-# def update_user():
-#     data = request.get_json()
-#     data["updated"] = datetime.today()
+@app.route("/api/v1/user/<int:user_id>/user_update", methods=["PUT"])
+def update_user(user_id):
+    data = request.get_json()
+    data["updated"] = datetime.today()
 
-#     response = app.response_class(
-#         response=user_viewset.find({}),
-#         status=201,
-#         mimetype="application/json"
-#     )
-#     return response
+    response = app.response_class(
+        response=json.dumps(user_viewset.update(user_id, data)),
+        status=200,
+        mimetype="application/json",
+    )
+    return response
 
 
 if __name__ == "__main__":
